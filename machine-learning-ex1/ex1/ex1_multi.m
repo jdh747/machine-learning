@@ -82,30 +82,27 @@ X = [ones(m, 1) X];
 fprintf('Running gradient descent ...\n');
 
 % Choose some alpha value
-% alpha = [0.01 0.03 0.1 0.3 1];
-alpha = 0.01;
-num_iters = 500;
+alpha = [0.01 0.03 0.1 0.3 1];
+num_iters = 50;
 
 % Init Theta and Run Gradient Descent 
 theta = zeros(3, 1);
-[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
-% J_history = zeros(num_iters, length(alpha));
-% for index = 1:length(alpha)
-%     [theta, J_history(:,index)] = gradientDescentMulti(X, y, theta, alpha(index), num_iters);
-% end
+J_history = zeros(num_iters, length(alpha));
+for index = 1:length(alpha)
+    [theta, J_history(:,index)] = gradientDescentMulti(X, y, theta, alpha(index), num_iters);
+end
 
 % Plot the convergence graph
 figure;
-plot(1:numel(J_history), J_history, 'b');
-% plot(1:50, J_history(1:50,1), 'b');
-% hold on;
-% plot(1:50, J_history(1:50,2), 'r');
-% plot(1:50, J_history(1:50,3), 'k');
-% plot(1:50, J_history(1:50,4), 'b');
-% plot(1:50, J_history(1:50,5), 'g');
+colour = ['b','r','k','y','g','c','m'];
+for index = 1:length(alpha)
+    plot(1:50, J_history(1:50,index), colour(index));
+    hold on;
+end
+legend('0.01','0.03','0.1','0.3','1');
 xlabel('Number of iterations');
 ylabel('Cost J');
-% hold off;
+hold off;
 
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
