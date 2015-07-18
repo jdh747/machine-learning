@@ -19,7 +19,7 @@ figure; hold on;
     %PLOT NEGATIVE SET
     plot(X(negative_set,1), X(negative_set,2), 'ko', 'MarkerFaceColor', 'y');
     legend('Admitted', 'Not Admitted');
-    axis([30 100 30 100]);
+    axis([(min(X(:,1))-0.5) (max(X(:,1))+0.5) (min(X(:,2))-0.5) (max(X(:,2))+0.5)]);
 % =========================================================================
 
 
