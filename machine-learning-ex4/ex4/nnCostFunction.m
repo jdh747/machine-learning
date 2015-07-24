@@ -64,37 +64,47 @@ Theta2_grad = zeros(size(Theta2));
 
     %% P1. COST FUNCTION
     % Feedforward -> Hypothesis, sum example cases
-    for i = [1:size(X, 1)]
-        %Format output vector
+    for i = [1:m]
+        % Format output vector
         Y = zeros(max(y), 1);
         Y(y(i)) = 1;
 
-        %Prop through network for current example
+        
+        % Forwardpropagation for current example
         a1 = [1; X(i,:)'];      % Add bias node
         z2 = Theta1*a1;         % (25x401)(401x1)=25x1
         a2 = [1; sigmoid(z2)];  % 26x1 (added bias node)
         z3 = Theta2*a2;         % (10x26)(26x1)=10x1
         hyp = sigmoid(z3);
 
-        %Increment cost calc
+        % Increment cost calc
         J = J + sum((-Y.*log(hyp)) - ((1-Y).*log(1-hyp)));  % sum(10x1.*10x1 - 10x1.*10x1)--element-wise arithmetic over all K
+        
+        % Backpropagate delta
+        delta3 = hyp - Y;
+        delta2 = (Theta2(:,2:end)' * delta3) .* sigmoidGradient(z2);
+        
+        % Accumulate gradient
+        Theta2_grad = Theta2_grad + (delta3 * a2');
+        Theta1_grad = Theta1_grad + (delta2 * a1');
     end
     
-    J = J/size(X, 1);
+    % Average Cost
+    J = J/m;
+    
+    % Average Gradient
+    Theta2_grad = Theta2_grad/m;
+    Theta1_grad = Theta1_grad/m;
 
     %% P2. Regularisation
-    reg_term = (lambda/(2*m))*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
-    J = J + reg_term;
+    reg_term_cost = (lambda/(2*m))*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
+    J = J + reg_term_cost;
     
-    %% P3. Back Propagation
+    reg_term_grad = [zeros(size(Theta2, 1), 1) (lambda/m)*Theta2(:,2:end)];
+    Theta2_grad = Theta2_grad + reg_term_grad;
+    reg_term_grad = [zeros(size(Theta1, 1), 1) (lambda/m)*Theta1(:,2:end)];
+    Theta1_grad = Theta1_grad + reg_term_grad;
     
-
-
-
-
-    %%
-% -------------------------------------------------------------
-
 % =========================================================================
 
 % Unroll gradients
