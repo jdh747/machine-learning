@@ -62,24 +62,37 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+    %% P1. COST FUNCTION
+    % Feedforward -> Hypothesis, sum example cases
+    for i = [1:size(X, 1)]
+        %Format output vector
+        Y = zeros(max(y), 1);
+        Y(y(i)) = 1;
+
+        %Prop through network for current example
+        a1 = [1; X(i,:)'];      % Add bias node
+        z2 = Theta1*a1;         % (25x401)(401x1)=25x1
+        a2 = [1; sigmoid(z2)];  % 26x1 (added bias node)
+        z3 = Theta2*a2;         % (10x26)(26x1)=10x1
+        hyp = sigmoid(z3);
+
+        %Increment cost calc
+        J = J + sum((-Y.*log(hyp)) - ((1-Y).*log(1-hyp)));  % sum(10x1.*10x1 - 10x1.*10x1)--element-wise arithmetic over all K
+    end
+    
+    J = J/size(X, 1);
+
+    %% P2. Regularisation
+    reg_term = (lambda/(2*m))*(sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)));
+    J = J + reg_term;
+    
+    %% P3. Back Propagation
+    
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    %%
 % -------------------------------------------------------------
 
 % =========================================================================
