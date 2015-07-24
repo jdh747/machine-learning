@@ -83,7 +83,7 @@ Theta2_grad = zeros(size(Theta2));
     J = J/size(X, 1);
 
     %% P2. Regularisation
-    reg_term = (lambda/(2*m))*(sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)));
+    reg_term = (lambda/(2*m))*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
     J = J + reg_term;
     
     %% P3. Back Propagation
