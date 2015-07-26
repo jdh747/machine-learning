@@ -50,17 +50,15 @@ error_val   = zeros(m, 1);
 %           
 %       end
 %
-
-% ---------------------- Sample Solution ----------------------
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
+    % Loop over 1->m training examples
+    for i = 1:m    
+        % Train model with i examples
+        theta = trainLinearReg(X(1:i,:), y(1:i), lambda);
+        % Compute training set error
+        error_train(i) = linearRegCostFunction(X(1:i,:), y(1:i), theta, 0);
+        % Compute cross validation error
+        error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);
+    end
 % =========================================================================
 
 end

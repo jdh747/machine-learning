@@ -18,18 +18,16 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
-
-
-
-
-
-
-
-
-
-
-
-
+    % CALCULATING FOR REGULARAISED COST (J)
+    h_theta = X*theta;      % (12x2)*(2x1)=12x1
+    reg_term = (lambda/(2*m)) * sum(theta(2:end).^2);
+    
+    J = (1/(2*m)) * sum((h_theta-y).^2);
+    J = J + reg_term;
+    
+    %CALCULATING FOR REGULARISED GRADIENT
+    grad(1) = ((h_theta-y)'*X(:,1))/m;
+    grad(2:end) = ((X(:,2:end)'/m)*(h_theta-y)) + ((lambda/m)*theta(2:end));
 % =========================================================================
 
 grad = grad(:);
