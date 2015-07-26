@@ -218,3 +218,6 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+[test_error, lambda] = testSetError(lambda_vec, error_val, X_poly, y, X_poly_test, ytest);
+fprintf('Lambda=%.3f Gives Test Error: %f\n', lambda, test_error);
