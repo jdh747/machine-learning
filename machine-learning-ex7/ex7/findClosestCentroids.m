@@ -20,13 +20,22 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
-
-
-
-
-
-
+    first_run = true;
+    euclidean_dist_min = 0;
+    
+    % Loop over examples (x)
+    for i = [1:size(X,1)]
+        % Loop over centroids (u)
+        for k = [1:K]
+            euclidean_dist = sqrt(sum((X(i,:) - centroids(k,:)).^2));
+            if first_run || (euclidean_dist < euclidean_dist_min)
+                idx(i) = k;
+                euclidean_dist_min = euclidean_dist;
+                first_run = false;
+            end
+        end
+        first_run = true;
+    end
 % =============================================================
 
 end
